@@ -3,8 +3,6 @@ import { UserContext, UserInterface } from "./UserContext";
 import toast from "react-hot-toast";
 import { useTodo } from "./TodoContextProvider";
 
-const baseUrl = 'https://fictional-umbrella-4xg96qjwjjpfj9w6-5000.app.github.dev';
-
 function UserContextProvider(props: React.PropsWithChildren<{}>) {
   const { fetchTodos } = useTodo();
   const [user, setUser] = React.useState<UserInterface>({
@@ -22,7 +20,7 @@ function UserContextProvider(props: React.PropsWithChildren<{}>) {
       return console.log("Token not found");
     }
     setLoading(true);
-    await fetch(`${baseUrl}/api/v1/users/get`, {
+    await fetch("/api/v1/users/get", {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +49,7 @@ function UserContextProvider(props: React.PropsWithChildren<{}>) {
     const { fullName, email, password } = newDetails;
     if (!fullName || !email || !password)
       return console.log("All fields are required");
-    fetch(`${baseUrl}/api/v1/users/updateDetails`, {
+    fetch("/api/v1/users/updateDetails", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +78,7 @@ function UserContextProvider(props: React.PropsWithChildren<{}>) {
     }
     if (!oldPassword || !newPassword)
       return console.log("All fields are required");
-    await fetch(`${baseUrl}/api/v1/users/changePassword`, {
+    await fetch("/api/v1/users/changePassword", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -114,7 +112,7 @@ function UserContextProvider(props: React.PropsWithChildren<{}>) {
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", "todoapp");
-    fetch(`https://api.cloudinary.com/v1_1/dv3qbj0bn/image/upload`, {
+    fetch("https://api.cloudinary.com/v1_1/dv3qbj0bn/image/upload", {
       method: "POST",
       body: data,
     })
@@ -128,7 +126,7 @@ function UserContextProvider(props: React.PropsWithChildren<{}>) {
           return console.log("Avatar is required");
         }
         // Save it to backend
-        fetch(`${baseUrl}/api/v1/users/updateAvatar`, {
+        fetch(`/api/v1/users/updateAvatar`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -173,7 +171,7 @@ function UserContextProvider(props: React.PropsWithChildren<{}>) {
     if (localStorage.getItem("todo-accessToken"))
       localStorage.removeItem("todo-accessToken");
     if (!email || !password) return console.log("All fields are required");
-    fetch(`${baseUrl}/api/v1/users/login`, {
+    fetch("/api/v1/users/login", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -210,7 +208,7 @@ function UserContextProvider(props: React.PropsWithChildren<{}>) {
       localStorage.removeItem("todo-accessToken");
     if (!fullName || !email || !password)
       return console.log("All fields are required");
-    fetch(`${baseUrl}/api/v1/users/register`, {
+    fetch("/api/v1/users/register", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -239,7 +237,7 @@ function UserContextProvider(props: React.PropsWithChildren<{}>) {
       return console.log("Token not found");
     }
     const toastLoading = toast.loading("Removing avatar...");
-    fetch(`${baseUrl}/api/v1/users/removeAvatar`, {
+    fetch("/api/v1/users/removeAvatar", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
